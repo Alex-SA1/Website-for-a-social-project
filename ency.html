@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" contetn="width=device-width, initial-scale=1.0">
+  <title>Refresh To Stay Fresh</title>
+  <link rel="shortcut icon" type="image/x-icon" href="logo.webp">
+  <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+  <script src="https://lit.fontawesome.com/a076d05399"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+::selection{
+  color: #fff;
+  background: #007bff;
+}
+.container{
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  background-color: rgba(53, 37, 37, 0.747);
+}
+.wrapper{
+  max-width: 1100px;
+}
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5%;
+}
+.gallery .image{
+  padding: 7px;
+  width: calc(100% / 3);
+}
+.gallery .image span{
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+.gallery .image img{
+  width: 100%;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+}
+.gallery .image:hover img{
+  transform: scale(1.1);
+}
+.preview-box{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: #fff;
+  max-width: 900px;
+  width: 100%;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 3px;
+  padding: 0 5px 5px 5px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+}
+.preview-box.show{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+  transition: all 0.3s ease;
+}
+.preview-box .details{
+  display: flex;
+  align-items: center;
+  padding: 12px 15px 12px 10px;
+  justify-content: space-between;
+}
+.preview-box .details .title{
+  display: flex;
+  font-size: 18px;
+  font-weight: 400;
+}
+.details .title p{
+  margin: 0 5px;
+}
+.details .title p.current-img{
+  font-weight: 500;
+}
+.details .icon{
+  color: #007bff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.preview-box .image-box{
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+.image-box .slide{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+  height: 50px;
+  width: 60px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 3px;
+}
+.slide.prev{
+  left: 0px;
+}
+.slide.next{
+  right: 0px;
+}
+.image-box img{
+  width: 100%;
+  border-radius: 0 0 3px 3px;
+}
+.shadow{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  display: none;
+  background: rgba(0,0,0,0.45);
+}
+#links{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  margin: auto auto 50px auto;
+}
+.links-text{
+  width: 1200px;
+}
+
+.link-heading span{
+  color: #36b7b5;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1rem;
+}
+.link-heading h2{
+  color: #1c3548;
+  font-size: 3.3rem;
+  margin: 0px;
+  font-weight: 400;
+  letter-spacing: 400; 
+}
+.s-box-container{
+  margin-top: 30px;
+  width: 1200px;
+}
+.link-box{
+  display: flex;
+  margin: 25px 0px;
+}
+.s-box-icon{
+  margin-right: 12px;
+}
+.s-box-icon i{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #F0F0F0;
+  font-size: 1.1rem;
+}
+.s-box-text strong{
+  color: #1c3548;
+  margin: 0px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.s-box-text p{
+  color:#747474;
+  font-size: 0.9rem;
+}
+.title{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  margin: auto auto 50px auto;
+}
+.title h2{
+  color: #1c3548;
+  font-size: 3.3rem;
+  margin: 0px;
+  font-weight: 400;
+  letter-spacing: 400; 
+}
+/*telefon*/
+
+@media(max-width: 1000px){
+  .gallery .image{
+    width: calc(100% / 1);
+  }
+  .preview-box{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: #fff;
+  max-width: 900px;
+  width: 100%;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 3px;
+  padding: 0 10px 10px 10px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+}
+.preview-box .details{
+  display: flex;
+  align-items: center;
+  padding: 12px 15px 12px 10px;
+  justify-content: space-between;
+}
+.preview-box .details .title{
+  display: flex;
+  font-size: 30px;
+  font-weight: 400;
+}
+.slide.prev{
+  left: 0px;
+  font-size: 65px;
+  color: black;
+}
+.slide.next{
+  right: 0px;
+  font-size: 65px;
+  color: black;
+}
+.details .icon{
+  color: #007bff;
+  font-size: 50px;
+  cursor: pointer;
+}
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0%;
+}
+.links-text{
+  width: 800px;
+}
+
+.link-heading span{
+  color: #26807e;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 2rem;
+}
+.link-heading h2{
+  color: #1c3548;
+  font-size: 4.3rem;
+  margin: 0px;
+  font-weight: 400;
+  letter-spacing: 400; 
+}
+.s-box-container{
+  margin-top: 30px;
+  width: 800px;
+}
+.link-box{
+  display: flex;
+  margin: 25px 0px;
+}
+.s-box-icon{
+  margin-right: 12px;
+}
+.s-box-icon i{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #F0F0F0;
+  font-size: 1.1rem;
+}
+.s-box-text strong{
+  color: #1c3548;
+  margin: 0px;
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+.s-box-text p{
+  color:#747474;
+  font-size: 1.9rem;
+}
+.title{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  margin: auto auto 50px auto;
+}
+.title h2{
+  color: #1c3548;
+  font-size: 3.3rem;
+  margin: 0px;
+  font-weight: 400;
+  letter-spacing: 400; 
+}
+}
+/*telefon sfarsit*/
+
+.sign
+{
+  color: rgb(61, 10, 10); 
+  font-size: 40px; 
+  margin-left: 10px;
+}
+.container{
+    margin: 0 auto;
+}
+header{
+  text-align: center;
+}
+body{
+    background-color: #f4d9ef;
+}
+
+
+</style>
+<body>
+    <a href="homepage.html"><i class="sign fa fa-arrow-left"></i></a>
+<div class="title">
+<h2>Encyclopedia</h2>
+</div>
+<div class="container">
+    <div class="wrapper">
+        <div class="gallery">
+          <div class="image"><span><img src="en1.jpg" alt=""></span></div>
+          <div class="image"><span><img src="en2.jpg" alt=""></span></div>
+          <div class="image"><span><img src="en3.jpg" alt=""></span></div>
+          <div class="image"><span><img src="en4.jpg" alt=""></span></div>
+          <div class="image"><span><img src="en5.jpg" alt=""></span></div>
+          <div class="image"><span><img src="en6.jpg" alt=""></span></div>
+        </div>
+      </div>
+      <div class="preview-box">
+        <div class="details">
+          <span class="title">Image <p class="current-img"></p> of <p class="total-img"></p></span>
+          <span class="icon fas fa-times"></span>
+        </div>
+        <div class="image-box">
+          <div class="slide prev"><i class="fas fa-angle-left"></i></div>
+          <div class="slide next"><i class="fas fa-angle-right"></i></div>
+          <img src="" alt="">
+        </div>
+      </div>
+      <div class="shadow"></div>
+</div>
+
+<section id="links">
+  <div class="links-text">
+    <div class="link-heading">
+      <span>Bibliography</span>
+      <h2>Videos, podcasts and books</h2>
+    </div>
+    <div class="s-box-container">
+      <div clss="link-box">
+        <div class="s-box-icon">
+          <i class="fab fa-youtube"></i>
+        </div>
+        <div class="s-box-text">
+          <strong>Videos</strong>
+          <p>
+            <a href="https://www.youtube.com/watch?v=jDkkk6vMPdw" style="text-decoration: none;">Talking to Teens about Drugs: Found in Reverse Translation? | Jibran Khokhar | </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=yjAKas1kuqs" style="text-decoration: none;">How Iceland Got Teens to Say No to Drugs, and How We Can Too | Aleethia Mackay |</a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=V0CdS128-q4" style="text-decoration: none;">What causes opioid addiction, and why is it so tough to combat? - Mike Davis</a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=ISMLIAXENFc" style="text-decoration: none;">Alcoholism and Drug Abuse in Teenagers | Megan Hanley | </a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=8qK0hxuXOC8" style="text-decoration: none;">How do drugs affect the brain? - Sara Garofalo</a>
+          </p>
+        </div>
+      </div>
+      <br>
+      <div clss="link-box">
+        <div class="s-box-icon">
+          <i class="fas fa-microphone-alt"></i>
+        </div>
+        <div class="s-box-text">
+          <strong>Podcasts</strong>
+          <p>
+            <a href="https://www.youtube.com/watch?v=0t7pTKLxelw" style="text-decoration: none;">Podcast: Drug Addiction and Abuse (feat. Dr Keiran Kennedy)</a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=1eh4fMcvAVE" style="text-decoration: none;">Dr. Drew on The Psychology of Healing Addiction and Trauma with Lewis Howes</a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=dv5Mi3EzE7A" style="text-decoration: none;">HOW MIKE'S DRUG ADDICTION BEGAN...</a>
+            <br>
+          </p>
+        </div>
+      </div>
+      <br>
+      <div clss="link-box">
+        <div class="s-box-icon">
+          <i class="fas fa-book"></i>
+        </div>
+        <div class="s-box-text">
+          <strong>Books</strong>
+          <p>
+            <a href="https://ajp.psychiatryonline.org/doi/10.1176/appi.ajp-rj.2016.111006" style="text-decoration: none;">Blackout: Remembering the Things I Drank to Forget by Sarah Hepola</a>
+            <br>
+            <a href="https://en.wikipedia.org/wiki/Scar_Tissue_(autobiography)" style="text-decoration: none;">Scar Tissue by Anthony Kiedis & Larry Sloman</a>
+            <br>
+            <a href="https://www.goodreads.com/book/show/27303014-girl-walks-out-of-a-bar" style="text-decoration: none;">Girl Walks Out of a Bar: A Memoir by Lisa Smith</a>
+            <br>
+            <a href="https://en.wikipedia.org/wiki/Dry_(memoir)" style="text-decoration: none;">Dry by Augusten Burroughs</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+const gallery  = document.querySelectorAll(".image"),
+previewBox = document.querySelector(".preview-box"),
+previewImg = previewBox.querySelector("img"),
+closeIcon = previewBox.querySelector(".icon"),
+currentImg = previewBox.querySelector(".current-img"),
+totalImg = previewBox.querySelector(".total-img"),
+shadow = document.querySelector(".shadow");
+window.onload = ()=>{
+    for (let i = 0; i < gallery.length; i++) {
+        totalImg.textContent = gallery.length;
+        let newIndex = i; 
+        let clickedImgIndex; 
+        
+        gallery[i].onclick = () =>{
+            clickedImgIndex = i; 
+            function preview(){
+                currentImg.textContent = newIndex + 1; 
+                let imageURL = gallery[newIndex].querySelector("img").src; 
+                previewImg.src = imageURL; 
+            }
+            preview(); 
+    
+            const prevBtn = document.querySelector(".prev");
+            const nextBtn = document.querySelector(".next");
+            if(newIndex == 0){ 
+                prevBtn.style.display = "none"; 
+            }
+            if(newIndex >= gallery.length - 1){ 
+                nextBtn.style.display = "none"; 
+            }
+            prevBtn.onclick = ()=>{ 
+                newIndex--; 
+                if(newIndex == 0){
+                    preview(); 
+                    prevBtn.style.display = "none"; 
+                }else{
+                    preview();
+                    nextBtn.style.display = "block";
+                } 
+            }
+            nextBtn.onclick = ()=>{ 
+                newIndex++; 
+                if(newIndex >= gallery.length - 1){
+                    preview(); 
+                    nextBtn.style.display = "none";
+                }else{
+                    preview(); 
+                    prevBtn.style.display = "block";
+                }
+            }
+            document.querySelector("body").style.overflow = "hidden";
+            previewBox.classList.add("show"); 
+            shadow.style.display = "block"; 
+            closeIcon.onclick = ()=>{
+                newIndex = clickedImgIndex; 
+                prevBtn.style.display = "block"; 
+                nextBtn.style.display = "block";
+                previewBox.classList.remove("show");
+                shadow.style.display = "none";
+                document.querySelector("body").style.overflow = "scroll";
+            }
+        }
+        
+    } 
+}
+</script>
+</body>
+</html>
